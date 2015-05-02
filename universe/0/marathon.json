@@ -1,0 +1,22 @@
+{
+  "id": "{{arangodb/id}}",
+  "args": [
+    "framework",
+    "--framework-name={{arangodb/id}}",
+    "--master={{mesos/master}}",
+    "--zk={{arangodb/zk}}/{{arangodb/id}}",
+    "--role=*"
+  ],
+  "cpus": 0.2,
+  "mem": 64.0,
+  "ports": [ 0 ],
+  "instances": 1,
+  "container": {
+    "type": "DOCKER",
+    "docker": {
+      "image": "arangodb/arangodb-mesos",
+      "forcePullImage": true,
+      "network": "HOST"
+    }
+  }
+}
