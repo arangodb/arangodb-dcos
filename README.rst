@@ -7,11 +7,11 @@ Setup
 #. Make sure you meet requirements for installing packages_
 #. Clone git repo for the dcos spark cli::
 
-    git clone git@github.com:mesosphere/dcos-spark.git
+    git clone git@github.com:arangodb/arangodb-dcos.git
 
 #. Change directory to the repo directory::
 
-    cd dcos-spark
+    cd arangodb-dcos
 
 #. Make sure that you have virtualenv installed. If not type::
 
@@ -26,7 +26,7 @@ Configure Environment and Run
 
 #. TODO: Talk about how to configure the root dcos cli
 
-#. :code:`source` the setup file to add the :code:`dcos-spark` command line interface to your
+#. :code:`source` the setup file to add the :code:`dcos-arangodb` command line interface to your
    :code:`PATH`::
 
     source env/bin/activate

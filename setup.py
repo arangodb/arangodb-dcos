@@ -2,7 +2,7 @@ import os
 from setuptools import setup, find_packages
 from codecs import open
 
-from dcos_spark import constants
+from dcos_arangodb import constants
 
 
 here = os.path.abspath(os.path.dirname(__file__))
@@ -32,22 +32,22 @@ def get_filepaths(package, directory):
 
 
 setup(
-    name='dcos-spark',
+    name='dcos-arangodb',
 
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
     version=constants.version,
 
-    description='DCOS Spark Command Line Interface',
+    description='DCOS ArangoDB Command Line Interface',
     long_description=long_description,
 
     # The project's main homepage.
-    url='https://github.com/mesosphere/dcos-spark',
+    url='https://github.com/fceller/arangodb-dcos',
 
     # Author details
-    author='Mesosphere, Inc.',
-    author_email='support@mesosphere.io',
+    author='ArangoDB GmbH',
+    author_email='info@arangodb.com',
 
 
     # See https://pypi.python.org/pypi?%3Aaction=list_classifiers
@@ -63,7 +63,7 @@ setup(
         'Intended Audience :: Information Technology',
 
         # Pick your license as you wish (should match "license" above)
-        'License :: OSI Approved :: TODO: License',
+        'License :: OSI Approved :: Apache Software License',
 
         # Specify the Python versions you support here. In particular, ensure
         # that you indicate whether you support Python 2, Python 3 or both.
@@ -77,7 +77,7 @@ setup(
     ],
 
     # What does your project relate to?
-    keywords='dcos command spark mesosphere',
+    keywords='dcos command arangodb',
 
     # You can just specify the packages manually here if your project is
     # simple. Or you can use find_packages().
@@ -106,7 +106,7 @@ setup(
     # installed, specify them here.  If using Python 2.6 or less, then these
     # have to be included in MANIFEST.in as well.
     package_data={
-        'dcos_spark': get_filepaths('dcos_spark', 'data'),
+        # 'dcos_arangodb': get_filepaths('dcos_arangodb', 'data'),
     },
 
     # Although 'package_data' is the preferred approach, in some case you may
@@ -120,7 +120,7 @@ setup(
     # pip to create the appropriate form of executable for the target platform.
     entry_points={
         'console_scripts': [
-            'dcos-spark=dcos_spark.cli:main',
+            'dcos-arangodb=dcos_arangodb.cli:main',
         ],
     },
 )
