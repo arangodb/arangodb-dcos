@@ -5,11 +5,16 @@
     "--framework-name={{arangodb/id}}",
     "--master={{mesos/master}}",
     "--zk={{arangodb/zk}}/{{arangodb/id}}",
+    "--volume-path={{arangodb/volume-path}}",
     "--role=*"
   ],
+  "env": {
+    "ARANGODB_WEBUI_HOST": "{{arangodb/webui-host}}",
+    "ARANGODB_WEBUI_PORT": "{{arangodb/framework-port}}"
+  },
   "cpus": 0.2,
   "mem": 64.0,
-  "ports": [ 0 ],
+  "ports": [ {{arangodb/framework-port}} ],
   "instances": 1,
   "container": {
     "type": "DOCKER",

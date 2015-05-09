@@ -18,7 +18,26 @@
       "description": "ZooKeeper URL for storing state. Format: zk://host1:port1,host2:port2,.../path. Please note that the id is appended to the path.",
       "type": "string",
       "default": "zk://master.mesos:2181/arangodb"
-    }
+    },
+
+    "arangodb/webui-host": {
+      "description": "For debugging: use this host for WEBUI request.",
+      "type": "string",
+      "default": ""
+    },
+
+    "arangodb/framework-port": {
+      "description": "Framework port, use '0' to let Mesos select a port for you.",
+      "type": "integer",
+      "default": 0
+    },
+
+    "arangodb/volume-path": {
+      "description": "Path for persistent data (until persistent volumes are available).",
+      "type": "string",
+      "default": "/tmp"
+    },
+
   },
 
   "required": [
