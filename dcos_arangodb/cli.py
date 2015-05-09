@@ -1,44 +1,37 @@
-"""Run and manage Spark jobs
+"""Run and manage ArangoDB
 
 Usage:
     dcos arangodb --help
     dcos arangodb --info
     dcos arangodb --version
-    dcos arangodb --config-schema
+    dcos arangodb destroy [--app-id <name>]
+    dcos arangodb mode [--app-id <name>]
     dcos arangodb webui [--app-id <name>]
 
 Options:
-    --help                  Show this screen
-    --info                  Show info
-    --version               Show version
+    -h, --help        Show this screen
+    --version         Show the version
 """
+
 from __future__ import print_function
 import docopt
 from dcos_arangodb import constants, discovery, arangodb_submit
 
 
-def master():
-    return discovery.get_arangodb_dispatcher()
+def destroy_cluster(args):
+    print(discovery.destroy_cluster(args['<name>']))
+    return 0
 
 
-def run_arangodb_job(args):
-    return arangodb_submit.submit_job(master(), args['--submit-args'])
-
-def show_arangodb_submit_help():
-    return arangodb_submit.show_help()
-
-
-def job_status(args):
-    return arangodb_submit.job_status(master(), args['<submissionId>'])
-
-
-def kill_job(args):
-    return arangodb_submit.kill_job(master(), args['<submissionId>'])
+def print_mode(args):
+    print(discovery.get_mode(args['<name>']))
+    return 0
 
 
 def print_webui(args):
     print(discovery.get_arangodb_webui(args['<name>']))
     return 0
+
 
 def main():
     args = docopt.docopt(
@@ -47,6 +40,12 @@ def main():
 
     if args['--info']:
         print(__doc__.split('\n')[0])
+    elif args['--version']:
+        print('dcos-arangodb version {}'.format(constants.version))
+    elif args['destroy']:
+        return destroy_cluster(args)
+    elif args['mode']:
+        return print_mode(args)
     elif args['webui']:
         return print_webui(args)
     else:

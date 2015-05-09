@@ -6,7 +6,7 @@ import requests
 import toml
 
 
-def get_arangodb_task(name):
+def get_arangodb_framework(name):
     dcos_config = os.getenv("DCOS_CONFIG")
     if dcos_config is None:
         print("Please specify DCOS_CONFIG env variable for reading DCOS "
@@ -16,52 +16,62 @@ def get_arangodb_task(name):
     with open(dcos_config) as f:
         config = toml.loads(f.read())
 
-    marathon = config["marathon"]
-    url = ("http://" + marathon["host"] + ":" + str(marathon["port"]) +
-           "/v2/apps/" + name)
-
-    print("URL")
-    print(url)
+    if 'master' in config:
+        master = config['master']
+        url = ("http://" + master["host"] + ":" + str(master["port"]) + "/master/state.json")
+    else:
+        marathon = config['marathon']
+        url = ("http://" + marathon["host"] + ":5050/master/state.json")
 
     response = requests.get(url, timeout=5)
 
     if response.status_code >= 200:
-        if 'app' not in response.json():
-            print(response.json()['message'])
+        json = response.json()
+
+        if 'frameworks' not in json:
+            print(json)
             sys.exit(1)
 
-        return response.json()["app"]
-    else:
-        print("Bad response getting marathon app def. Status code: " +
-              str(response.status_code))
+	frameworks = json['frameworks']
+
+        for framework in frameworks:
+            if name == framework['name']:
+                return framework
+
+        print("ArangoDB framework '" + name + "' is not running yet.")
         sys.exit(1)
-        return ""
+    else:
+        print("Bad response getting master state. Status code: " + str(response.status_code))
+        sys.exit(1)
 
 
 def get_arangodb_webui(name):
     if name == None:
 	name = "arangodb-cluster"
 
-    arangodb_task = get_arangodb_task(name)
-    tasks = arangodb_task['tasks']
+    arangodb_framework = get_arangodb_framework(name)
+    return arangodb_framework['webui_url']
 
-    if len(tasks) == 0:
-        print("ArangoDB cluster task is not running yet.")
+
+def get_mode(name):
+    url = get_arangodb_webui(name) + "v1/mode.json"
+    response = requests.get(url, timeout=5)
+
+    if response.status_code >= 200:
+        json = response.json()
+        return json["mode"]
+    else:
+        print("Bad response getting mode. Status code: " + str(response.status_code))
         sys.exit(1)
 
-    return "http://" + tasks[0]["host"] + ":" + str(tasks[0]["ports"][0])
 
+def destroy_cluster(name):
+    url = get_arangodb_webui(name) + "v1/destroy.json"
+    response = requests.post(url, timeout=5)
 
-def get_arangodb_dispatcher():
-    dcos_arangodb_url = os.getenv("DCOS_SPARK_URL")
-    if dcos_arangodb_url is not None:
-        return dcos_arangodb_url
-
-    arangodb_task = get_arangodb_task()
-    tasks = arangodb_task['tasks']
-
-    if len(tasks) == 0:
-        print("Spark cluster task is not running yet.")
+    if response.status_code >= 200:
+        json = response.json()
+        return json
+    else:
+        print("Bad response getting mode. Status code: " + str(response.status_code))
         sys.exit(1)
-
-    return tasks[0]["host"] + ":" + str(tasks[0]["ports"][0])

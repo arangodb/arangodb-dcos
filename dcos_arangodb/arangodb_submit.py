@@ -17,6 +17,7 @@ def partition(args, pred):
             aout.append(x)
     return (ain, aout)
 
+
 def show_help():
     submit_file = pkg_resources.resource_filename(
         'dcos_arangodb',
