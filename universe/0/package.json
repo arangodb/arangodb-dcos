@@ -1,5 +1,5 @@
 {
-  "name": "marathon",
+  "name": "arangodb",
   "version": "0.1.0",
   "scm": "https://github.com/arangodb/arangodb-mesos.git",
   "maintainer": "info@arangodb.com",

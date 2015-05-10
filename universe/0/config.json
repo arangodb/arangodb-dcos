@@ -36,7 +36,7 @@
       "description": "Path for persistent data (until persistent volumes are available).",
       "type": "string",
       "default": "/tmp"
-    },
+    }
 
   },
 
