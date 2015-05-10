@@ -8,6 +8,7 @@ import toml
 
 def get_arangodb_framework(name):
     dcos_config = os.getenv("DCOS_CONFIG")
+
     if dcos_config is None:
         print("Please specify DCOS_CONFIG env variable for reading DCOS "
               "config")
@@ -23,7 +24,11 @@ def get_arangodb_framework(name):
         marathon = config['marathon']
         url = ("http://" + marathon["host"] + ":5050/master/state.json")
 
-    response = requests.get(url, timeout=5)
+    try:
+        response = requests.get(url, timeout=5)
+    except requests.exceptions.ConnectionError:
+        print("cannot connect to '" + url + "', please check your config")
+        sys.exit(1)
 
     if response.status_code >= 200:
         json = response.json()
