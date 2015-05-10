@@ -16,7 +16,7 @@ Options:
 
 from __future__ import print_function
 import docopt
-from dcos_arangodb import constants, discovery, arangodb_submit
+from dcos_arangodb import constants, discovery
 
 
 def destroy_cluster(args):
