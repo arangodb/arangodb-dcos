@@ -60,7 +60,12 @@ def get_arangodb_webui(name):
 
 def get_mode(name):
     url = get_arangodb_webui(name) + "v1/mode.json"
-    response = requests.get(url, timeout=5)
+
+    try:
+        response = requests.get(url, timeout=5)
+    except requests.exceptions.ConnectTimeout:
+        print("cannot connect to '" + url + "', please check your network")
+        sys.exit(1)
 
     if response.status_code >= 200:
         json = response.json()
@@ -72,7 +77,12 @@ def get_mode(name):
 
 def destroy_cluster(name):
     url = get_arangodb_webui(name) + "v1/destroy.json"
-    response = requests.post(url, timeout=5)
+
+    try:
+        response = requests.post(url, timeout=5)
+    except requests.exceptions.ConnectTimeout:
+        print("cannot connect to '" + url + "', please check your network")
+        sys.exit(1)
 
     if response.status_code >= 200:
         json = response.json()

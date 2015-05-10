@@ -1,5 +1,10 @@
 {
   "id": "{{arangodb/id}}",
+  "cpus": 0.2,
+  "mem": 64.0,
+  "ports": [ {{arangodb/framework-port}} ],
+  "instances": 1,
+
   "args": [
     "framework",
     "--framework-name={{arangodb/id}}",
@@ -8,14 +13,12 @@
     "--volume-path={{arangodb/volume-path}}",
     "--role=*"
   ],
+
   "env": {
     "ARANGODB_WEBUI_HOST": "{{arangodb/webui-host}}",
     "ARANGODB_WEBUI_PORT": "{{arangodb/framework-port}}"
   },
-  "cpus": 0.2,
-  "mem": 64.0,
-  "ports": [ {{arangodb/framework-port}} ],
-  "instances": 1,
+
   "container": {
     "type": "DOCKER",
     "docker": {
@@ -23,5 +26,17 @@
       "forcePullImage": true,
       "network": "HOST"
     }
-  }
+  },
+
+  "healthChecks": [
+    {
+      "protocol": "HTTP",
+      "path": "/v1/health.json",
+      "gracePeriodSeconds": 3,
+      "intervalSeconds": 10,
+      "portIndex": 0,
+      "timeoutSeconds": 10,
+      "maxConsecutiveFailures": 0
+    }
+  ]
 }
