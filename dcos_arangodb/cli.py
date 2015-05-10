@@ -5,7 +5,7 @@ Usage:
     dcos arangodb --info
     dcos arangodb --version
     dcos arangodb --config
-    dcos arangodb destroy [--app-id <name>]
+    dcos arangodb uninstall [--app-id <name>]
     dcos arangodb mode [--app-id <name>]
     dcos arangodb webui [--app-id <name>]
 
@@ -49,7 +49,7 @@ def main():
         print('dcos-arangodb version {}'.format(constants.version))
     elif args['--config']:
         print_schema(args)
-    elif args['destroy']:
+    elif args['uninstall']:
         return destroy_cluster(args)
     elif args['mode']:
         return print_mode(args)
