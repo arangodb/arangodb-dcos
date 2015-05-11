@@ -11,7 +11,7 @@
     "arangodb/id": {
       "description": "Identifier for the cluster.",
       "type": "string",
-      "default": "arangodb-cluster"
+      "default": "arangodb"
     },
 
     "arangodb/zk": {
