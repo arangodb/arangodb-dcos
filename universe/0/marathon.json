@@ -7,12 +7,12 @@
 
   "args": [
     "framework",
-    "--framework-name={{arangodb/id}}",
+    "--framework_name={{arangodb/id}}",
     "--master={{mesos/master}}",
     "--zk={{arangodb/zk}}/{{arangodb/id}}",
-    "--volume-path={{arangodb/volume-path}}",
+    "--volume_path={{arangodb/volume-path}}",
     "--role=*",
-    "--reset-state"
+    "--reset_state"
   ],
 
   "env": {
