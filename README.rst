@@ -1,11 +1,13 @@
-DCOS Spark Subcommand
-==========================
+DCOS ArangoDB Subcommand
+========================
+
 Basic DCOS subcommand
 
 Setup
 -----
+
 #. Make sure you meet requirements for installing packages_
-#. Clone git repo for the dcos spark cli::
+#. Clone git repo for the dcos ArangoDB cli::
 
     git clone git@github.com:arangodb/arangodb-dcos.git
 
@@ -31,9 +33,9 @@ Configure Environment and Run
 
     source env/bin/activate
 
-#. Get started by calling the DCOS Spark CLI's help::
+#. Get started by calling the DCOS ArangoDB CLI's help::
 
-    dcos spark help
+    dcos-arangodb arangodb help
 
 Running Tests:
 --------------
