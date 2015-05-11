@@ -4,7 +4,7 @@ Usage:
     dcos arangodb --help
     dcos arangodb --info
     dcos arangodb --version
-    dcos arangodb --config
+    dcos arangodb --config-schema
     dcos arangodb uninstall [--app-id <name>]
     dcos arangodb mode [--app-id <name>]
     dcos arangodb webui [--app-id <name>]
@@ -15,6 +15,7 @@ Options:
 """
 
 from __future__ import print_function
+
 import docopt
 from dcos_arangodb import constants, discovery
 
@@ -33,6 +34,7 @@ def print_webui(args):
     print(discovery.get_arangodb_webui(args['<name>']))
     return 0
 
+
 def print_schema(args):
     print("{}")
     return 0
@@ -41,13 +43,16 @@ def print_schema(args):
 def main():
     args = docopt.docopt(
         __doc__,
-        version='dcos-arangodb version {}'.format(constants.version), help=False)
+        version='dcos-arangodb version {}'.format(constants.version),
+        help=False)
 
     if args['--info']:
         print(__doc__.split('\n')[0])
+    elif args['--help']:
+        print(__doc__)
     elif args['--version']:
         print('dcos-arangodb version {}'.format(constants.version))
-    elif args['--config']:
+    elif args['--config-schema']:
         print_schema(args)
     elif args['uninstall']:
         return destroy_cluster(args)
