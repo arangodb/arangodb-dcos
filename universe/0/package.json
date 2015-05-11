@@ -1,4 +1,7 @@
 {
+  "app": {
+    "appId": "/arangodb"
+  },
   "name": "arangodb",
   "version": "0.1.0",
   "scm": "https://github.com/arangodb/arangodb-mesos.git",
@@ -10,5 +13,8 @@
     "NoSQL",
     "database",
     "framework"
-  ]
+  ],
+  "command": {
+    "name": "arangodb"
+  }
 }

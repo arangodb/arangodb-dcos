@@ -1,4 +1,5 @@
 from __future__ import print_function
+
 import os
 import sys
 
@@ -19,7 +20,8 @@ def get_arangodb_framework(name):
 
     if 'master' in config:
         master = config['master']
-        url = ("http://" + master["host"] + ":" + str(master["port"]) + "/master/state.json")
+        url = ("http://" + master["host"] + ":"
+               + str(master["port"]) + "/master/state.json")
     else:
         marathon = config['marathon']
         url = ("http://" + marathon["host"] + ":5050/master/state.json")
@@ -37,7 +39,7 @@ def get_arangodb_framework(name):
             print(json)
             sys.exit(1)
 
-	frameworks = json['frameworks']
+        frameworks = json['frameworks']
 
         for framework in frameworks:
             if name == framework['name']:
@@ -46,13 +48,14 @@ def get_arangodb_framework(name):
         print("ArangoDB framework '" + name + "' is not running yet.")
         sys.exit(1)
     else:
-        print("Bad response getting master state. Status code: " + str(response.status_code))
+        print("Bad response getting master state. Status code: "
+              + str(response.status_code))
         sys.exit(1)
 
 
 def get_arangodb_webui(name):
-    if name == None:
-	name = "arangodb-cluster"
+    if name is None:
+        name = "arangodb"
 
     arangodb_framework = get_arangodb_framework(name)
     return arangodb_framework['webui_url']
@@ -63,6 +66,10 @@ def get_mode(name):
 
     try:
         response = requests.get(url, timeout=5)
+    except requests.exceptions.ConnectionError:
+        print("cannot connect to '" + url
+              + "', please check that the ArangoDB framework is running")
+        sys.exit(1)
     except requests.exceptions.ConnectTimeout:
         print("cannot connect to '" + url + "', please check your network")
         sys.exit(1)
@@ -71,7 +78,8 @@ def get_mode(name):
         json = response.json()
         return json["mode"]
     else:
-        print("Bad response getting mode. Status code: " + str(response.status_code))
+        print("Bad response getting mode. Status code: "
+              + str(response.status_code))
         sys.exit(1)
 
 
@@ -80,6 +88,10 @@ def destroy_cluster(name):
 
     try:
         response = requests.post(url, timeout=5)
+    except requests.exceptions.ConnectionError:
+        print("cannot connect to '" + url
+              + "', please check that the ArangoDB framework is running")
+        sys.exit(1)
     except requests.exceptions.ConnectTimeout:
         print("cannot connect to '" + url + "', please check your network")
         sys.exit(1)
@@ -88,5 +100,6 @@ def destroy_cluster(name):
         json = response.json()
         return json
     else:
-        print("Bad response getting mode. Status code: " + str(response.status_code))
+        print("Bad response getting mode. Status code: "
+              + str(response.status_code))
         sys.exit(1)
