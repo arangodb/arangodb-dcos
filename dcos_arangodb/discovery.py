@@ -6,7 +6,7 @@ import sys
 import requests
 import toml
 
-from dcos import marathon, util
+from dcos import util
 
 def get_arangodb_framework(name):
     url = util.get_config().get('core.dcos_url') + ":5050/master/state.json"
