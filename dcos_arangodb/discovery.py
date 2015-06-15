@@ -6,26 +6,10 @@ import sys
 import requests
 import toml
 
+from dcos import marathon, util
 
 def get_arangodb_framework(name):
-    dcos_config = os.getenv("DCOS_CONFIG")
-
-    if dcos_config is None:
-        print("Please specify DCOS_CONFIG env variable for reading DCOS "
-              "config")
-        sys.exit(1)
-
-    with open(dcos_config) as f:
-        config = toml.loads(f.read())
-
-    if 'master' in config:
-        master = config['master']
-        url = ("http://" + master["host"] + ":"
-               + str(master["port"]) + "/master/state.json")
-    else:
-        marathon = config['marathon']
-        url = ("http://" + marathon["host"] + ":5050/master/state.json")
-
+    url = util.get_config().get('core.dcos_url') + ":5050/master/state.json"
     try:
         response = requests.get(url, timeout=5)
     except requests.exceptions.ConnectionError:
