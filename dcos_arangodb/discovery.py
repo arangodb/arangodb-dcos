@@ -11,7 +11,7 @@ from dcos import util
 def get_arangodb_framework(name):
     url = util.get_config().get('core.dcos_url') + ":5050/master/state.json"
     try:
-        response = requests.get(url, timeout=5)
+        response = requests.get(url, timeout=15)
     except requests.exceptions.ConnectionError:
         print("cannot connect to '" + url + "', please check your config")
         sys.exit(1)
@@ -49,7 +49,7 @@ def get_mode(name):
     url = get_arangodb_webui(name) + "v1/mode.json"
 
     try:
-        response = requests.get(url, timeout=5)
+        response = requests.get(url, timeout=15)
     except requests.exceptions.ConnectionError:
         print("cannot connect to '" + url
               + "', please check that the ArangoDB framework is running")
@@ -71,7 +71,7 @@ def destroy_cluster(name):
     url = get_arangodb_webui(name) + "v1/destroy.json"
 
     try:
-        response = requests.post(url, timeout=5)
+        response = requests.post(url, timeout=60)
     except requests.exceptions.ConnectionError:
         print("cannot connect to '" + url
               + "', please check that the ArangoDB framework is running")
