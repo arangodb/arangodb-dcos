@@ -75,7 +75,7 @@ Deinstallation/Shutdown
 To shutdown and delete your ArangoDB framework/service and to remove the
 command line tool, do the following two commands:
 
-    dcos arangodb uninstall ; dcos package arangodb uninstall
+    dcos arangodb uninstall ; dcos package uninstall arangodb
 
 The first one uses the "arangodb" subcommand to gracefully shut down and
 delete all instances of your ArangoDB service. The framework scheduler
