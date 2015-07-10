@@ -15,6 +15,10 @@ which in turn is built using the `Dockerfile` in
 
     https://github.com/ArangoDB/arangodb-mesos-docker.
 
+See the [README.md](https://github.com/ArangoDB/arangodb-mesos) in the
+framework repository for details on how the framework scheduler is
+configured.
+
 
 Introduction
 ------------
