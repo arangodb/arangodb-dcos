@@ -155,6 +155,9 @@ attributes on the top level of this file are defined:
     independent single server instances in the cluster. The latter starts
     a proper distributed ArangoDB cluster. This is the default.
 
+  - `arangodb.role`: this must be a string and is the role for which the
+    framework will accept offers. Default is "*".
+
   - `arangodb.minimum-resources-agent`: Mesos resource specification,
     one must specify `cpus`, `mem` and `disk`. Otherwise offers with zero
     values are accepted.
