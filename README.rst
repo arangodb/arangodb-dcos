@@ -15,6 +15,10 @@ which in turn is built using the `Dockerfile` in
 
     https://github.com/ArangoDB/arangodb-mesos-docker.
 
+See the [README.md](https://github.com/ArangoDB/arangodb-mesos) in the
+framework repository for details on how the framework scheduler is
+configured.
+
 
 Introduction
 ------------
@@ -75,7 +79,7 @@ Deinstallation/Shutdown
 To shutdown and delete your ArangoDB framework/service and to remove the
 command line tool, do the following two commands:
 
-    dcos arangodb uninstall ; dcos package arangodb uninstall
+    dcos arangodb uninstall ; dcos package uninstall arangodb
 
 The first one uses the "arangodb" subcommand to gracefully shut down and
 delete all instances of your ArangoDB service. The framework scheduler
@@ -190,4 +194,26 @@ This will give you access to your other running ArangoDB clusters.
 
 Ideally, the additional option should be unnecessary, but currently this
 trick is needed.
+
+
+Support and bug reports
+-----------------------
+
+The ArangoDB Mesos framework as well as the DCOS subcommand are
+supported by ArangoDB GmbH, the company behind ArangoDB. If you get
+stuck, need help or have questions, just ask via one of the following
+channels:
+
+  - [Google Group](https://groups.google.com/forum/#!forum/arangodb)
+  - `hackers@arangodb.com`: developer mailing list of ArangoDB
+  - `max@arangodb.com`: direct email to Max Neunhöffer
+  - `frank@arangodb.com`: direct email to Frank Celler
+
+Additionally, we track issues, bug reports and questions via the github
+issue trackers at
+
+  - [arangodb-dcos](https://github.com/ArangoDB/arangodb-dcos/issues):
+    the DCOS subcommand
+  - [arangodb-mesos](https://github.com/arangodb/arangodb-mesos/issues):
+    the ArangoDB framework/service
 

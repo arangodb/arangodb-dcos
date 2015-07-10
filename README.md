@@ -195,3 +195,25 @@ This will give you access to your other running ArangoDB clusters.
 Ideally, the additional option should be unnecessary, but currently this
 trick is needed.
 
+
+Support and bug reports
+-----------------------
+
+The ArangoDB Mesos framework as well as the DCOS subcommand are
+supported by ArangoDB GmbH, the company behind ArangoDB. If you get
+stuck, need help or have questions, just ask via one of the following
+channels:
+
+  - [Google Group](https://groups.google.com/forum/#!forum/arangodb)
+  - `hackers@arangodb.com`: developer mailing list of ArangoDB
+  - `max@arangodb.com`: direct email to Max Neunhöffer
+  - `frank@arangodb.com`: direct email to Frank Celler
+
+Additionally, we track issues, bug reports and questions via the github
+issue trackers at
+
+  - [arangodb-dcos](https://github.com/ArangoDB/arangodb-dcos/issues):
+    the DCOS subcommand
+  - [arangodb-mesos](https://github.com/arangodb/arangodb-mesos/issues):
+    the ArangoDB framework/service
+
