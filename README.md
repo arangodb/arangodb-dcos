@@ -137,31 +137,41 @@ way:
 where `JSON_FILE` is the path to a JSON file. The following
 attributes on the top level of this file are defined:
 
-  - `arangodb/id`: a string, unique ID for the started cluster, do not
+  - `arangodb.id`: a string, unique ID for the started cluster, do not
     confuse with --app-id, unfortunately, the two are not the same!
 
-  - `arangodb/mode`: this must be a string and the possible values
+  - `arangodb.framework-cpus`: minimum cpu resources for the framework
+    scheduler.
+
+  - `arangodb.framework-mem`: minimum memory resource for the framework
+    scheduler.
+
+  - `arangodb.framework-instances`: number of instances of the framework
+    scheduler to launch. It does not make any sense to change this from
+    its default value of 1.
+
+  - `arangodb.mode`: this must be a string and the possible values
     are "standalone" and "cluster". The former starts a fixed number of
     independent single server instances in the cluster. The latter starts
     a proper distributed ArangoDB cluster. This is the default.
 
-  - `arangodb/minimum-resources-agent`: Mesos resource specification,
+  - `arangodb.minimum-resources-agent`: Mesos resource specification,
     one must specify `cpus`, `mem` and `disk`. Otherwise offers with zero
     values are accepted.
 
-  - `arangodb/minimum-resources-dbserver`: Mesos resource specification,
+  - `arangodb.minimum-resources-dbserver`: Mesos resource specification,
     one must specify `cpus`, `mem` and `disk`. Otherwise offers with zero
     values are accepted. - `minimum-resources-coordinator`: Mesos resource
     specification, one must specify `cpus`, `mem` and `disk`. Otherwise
     offers with zero values are accepted.
 
-  - `arangodb/nr-agents`: an integer, number of agent processes in the
+  - `arangodb.nr-agents`: an integer, number of agent processes in the
     agency. Currently limited to 1.
 
-  - `arangodb/nr-dbservers`: an integer, number of DBserver processes in
+  - `arangodb.nr-dbservers`: an integer, number of DBserver processes in
     the cluster.
 
-  - `arangodb/nr-coordinators`: an integer, number of coordinator
+  - `arangodb.nr-coordinators`: an integer, number of coordinator
     processes in the cluster.
 
 
@@ -171,14 +181,14 @@ Running more than one ArangoDB cluster on the same Mesosphere cluster
 If you want to run more than one instance of the ArangoDB service on
 the same Mesosphere cluster, you have to specify `--app-id <name>` in
 the `dcos package install` command as well as the configuration option
-`arangodb/id`. They can be the same but need not be. Thus, start a new
+`arangodb.id`. They can be the same but need not be. Thus, start a new
 cluster with
 
     dcos package install --config=myconfig.json --app-id=name1 arangodb
 
 where `myconfig.json` is
 
-    { "arangodb/id": "id1" }
+    { "arangodb.id": "id1" }
 
 Note the difference between "name1" and "id1"!
 
