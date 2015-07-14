@@ -5,9 +5,9 @@ Usage:
     dcos arangodb --info
     dcos arangodb --version
     dcos arangodb --config-schema
-    dcos arangodb uninstall [--app-id <name>]
-    dcos arangodb mode [--app-id <name>]
-    dcos arangodb webui [--app-id <name>]
+    dcos arangodb uninstall [--app-id <name>] [--internal]
+    dcos arangodb mode [--app-id <name>] [--internal]
+    dcos arangodb webui [--app-id <name>] [--internal]
 
 Options:
     -h, --help        Show this screen
@@ -25,13 +25,13 @@ def destroy_cluster(args):
     return 0
 
 
-def print_mode(args):
-    print(discovery.get_mode(args['<name>']))
+def print_mode(args, internal):
+    print(discovery.get_mode(args['<name>'], internal))
     return 0
 
 
-def print_webui(args):
-    print(discovery.get_arangodb_webui(args['<name>']))
+def print_webui(args, internal):
+    print(discovery.get_arangodb_webui(args['<name>'], internal))
     return 0
 
 
@@ -46,6 +46,11 @@ def main():
         version='dcos-arangodb version {}'.format(constants.version),
         help=False)
 
+    internal = False
+
+    if args['--internal']:
+        internal = True
+
     if args['--info']:
         print(__doc__.split('\n')[0])
     elif args['--help']:
@@ -55,11 +60,11 @@ def main():
     elif args['--config-schema']:
         print_schema(args)
     elif args['uninstall']:
-        return destroy_cluster(args)
+        return destroy_cluster(args, internal)
     elif args['mode']:
-        return print_mode(args)
+        return print_mode(args, internal)
     elif args['webui']:
-        return print_webui(args)
+        return print_webui(args, internal)
     else:
         print(__doc__)
         return 1

@@ -37,16 +37,19 @@ def get_arangodb_framework(name):
         sys.exit(1)
 
 
-def get_arangodb_webui(name):
+def get_arangodb_webui(name, internal):
     if name is None:
         name = "arangodb"
 
-    arangodb_framework = get_arangodb_framework(name)
-    return arangodb_framework['webui_url']
+    if internal:
+        arangodb_framework = get_arangodb_framework(name)
+        return arangodb_framework['webui_url']
+    else:
+        return util.get_config().get('core.dcos_url') + "/services/" + name
 
 
-def get_mode(name):
-    url = get_arangodb_webui(name) + "v1/mode.json"
+def get_mode(name, internal):
+    url = get_arangodb_webui(name, internal) + "/v1/mode.json"
 
     try:
         response = requests.get(url, timeout=15)
@@ -67,8 +70,8 @@ def get_mode(name):
         sys.exit(1)
 
 
-def destroy_cluster(name):
-    url = get_arangodb_webui(name) + "v1/destroy.json"
+def destroy_cluster(name, internal):
+    url = get_arangodb_webui(name, internal) + "/v1/destroy.json"
 
     try:
         response = requests.post(url, timeout=60)
