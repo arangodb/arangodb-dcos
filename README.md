@@ -208,6 +208,12 @@ This will give you access to your other running ArangoDB clusters.
 Ideally, the additional option should be unnecessary, but currently this
 trick is needed.
 
+Running dcos within the internal network
+----------------------------------------
+
+The dcos sub-commands use the official hostname or IP. If you running dcos on a machine with an internal IP address and no access to the official IP, you can pass the `--internal` flag, for example
+
+    dcos arangodb webui --internal
 
 Support and bug reports
 -----------------------
