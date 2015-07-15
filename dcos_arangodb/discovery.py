@@ -16,7 +16,7 @@ def get_arangodb_framework(name):
         print("cannot connect to '" + url + "', please check your config")
         sys.exit(1)
 
-    if response.status_code >= 200:
+    if response.status_code >= 200 and response.status_code < 300:
         json = response.json()
 
         if 'frameworks' not in json:
@@ -62,7 +62,7 @@ def get_mode(name, internal):
         print("cannot connect to '" + url + "', please check your network")
         sys.exit(1)
 
-    if response.status_code >= 200:
+    if response.status_code >= 200 and response.status_code < 300:
         json = response.json()
         return json["mode"]
     else:
@@ -84,7 +84,7 @@ def destroy_cluster(name, internal):
         print("cannot connect to '" + url + "', please check your network")
         sys.exit(1)
 
-    if response.status_code >= 200:
+    if response.status_code >= 200 and response.status_code < 300:
         json = response.json()
         return json
     else:
