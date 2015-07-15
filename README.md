@@ -211,7 +211,7 @@ trick is needed.
 Running dcos within the internal network
 ----------------------------------------
 
-The dcos sub-commands use the official hostname or IP. If you running dcos on a machine with an internal IP address and no access to the official IP, you can pass the `--internal` flag, for example
+The dcos sub-commands use the official hostname or IP. If you run dcos on a machine with an internal IP address and no access to the official IP, you can pass the `--internal` flag, for example
 
     dcos arangodb webui --internal
 
