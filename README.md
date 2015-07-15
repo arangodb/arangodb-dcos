@@ -199,7 +199,7 @@ To destroy that cluster use
 
     dcos arangodb uninstall --app-id id1 ; dcos package uninstall arangodb --app-id name1
 
-After this the `arangodb` subcommand will also be installed, to restore, do
+After this the `arangodb` subcommand will also be uninstalled, to restore, do
 
     dcos package install --cli arangodb
 
