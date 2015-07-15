@@ -31,7 +31,7 @@ def print_mode(args, internal):
 
 
 def print_webui(args, internal):
-    print(discovery.get_arangodb_webui(args['<name>'], internal))
+    print(discovery.get_arangodb_webui(args['<name>'], internal) + "/")
     return 0
 
 

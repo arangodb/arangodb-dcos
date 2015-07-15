@@ -43,7 +43,7 @@ def get_arangodb_webui(name, internal):
 
     if internal:
         arangodb_framework = get_arangodb_framework(name)
-        return arangodb_framework['webui_url']
+        return arangodb_framework['webui_url'].rstrip("/")
     else:
         base_url = util.get_config().get('core.dcos_url').rstrip("/")
         return base_url + "/service/" + name
