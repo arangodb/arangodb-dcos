@@ -20,8 +20,8 @@ import docopt
 from dcos_arangodb import constants, discovery
 
 
-def destroy_cluster(args):
-    print(discovery.destroy_cluster(args['<name>']))
+def destroy_cluster(args, internal):
+    print(discovery.destroy_cluster(args['<name>'], internal))
     return 0
 
 
