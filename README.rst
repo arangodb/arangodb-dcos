@@ -164,7 +164,13 @@ attributes on the top level of this file are defined:
 
   - `arangodb.minimum-resources-dbserver`: Mesos resource specification,
     one must specify `cpus`, `mem` and `disk`. Otherwise offers with zero
-    values are accepted. - `minimum-resources-coordinator`: Mesos resource
+    values are accepted.
+    
+  - `arangodb.minimum-resources-secondary`: Mesos resource specification,
+    one must specify `cpus`, `mem` and `disk`. Otherwise offers with zero
+    values are accepted.
+
+  - `minimum-resources-coordinator`: Mesos resource
     specification, one must specify `cpus`, `mem` and `disk`. Otherwise
     offers with zero values are accepted.
 
@@ -199,7 +205,7 @@ To destroy that cluster use
 
     dcos arangodb uninstall --app-id id1 ; dcos package uninstall arangodb --app-id name1
 
-After this the `arangodb` subcommand will also be installed, to restore, do
+After this the `arangodb` subcommand will also be uninstalled, to restore, do
 
     dcos package install --cli arangodb
 
@@ -208,6 +214,12 @@ This will give you access to your other running ArangoDB clusters.
 Ideally, the additional option should be unnecessary, but currently this
 trick is needed.
 
+Running dcos within the internal network
+----------------------------------------
+
+The dcos sub-commands use the official hostname or IP. If you run dcos on a machine with an internal IP address and no access to the official IP, you can pass the `--internal` flag, for example
+
+    dcos arangodb webui --internal
 
 Support and bug reports
 -----------------------

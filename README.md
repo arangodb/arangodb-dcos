@@ -164,7 +164,13 @@ attributes on the top level of this file are defined:
 
   - `arangodb.minimum-resources-dbserver`: Mesos resource specification,
     one must specify `cpus`, `mem` and `disk`. Otherwise offers with zero
-    values are accepted. - `minimum-resources-coordinator`: Mesos resource
+    values are accepted.
+    
+  - `arangodb.minimum-resources-secondary`: Mesos resource specification,
+    one must specify `cpus`, `mem` and `disk`. Otherwise offers with zero
+    values are accepted.
+
+  - `minimum-resources-coordinator`: Mesos resource
     specification, one must specify `cpus`, `mem` and `disk`. Otherwise
     offers with zero values are accepted.
 
