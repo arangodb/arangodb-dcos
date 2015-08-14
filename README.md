@@ -155,6 +155,10 @@ attributes on the top level of this file are defined:
     independent single server instances in the cluster. The latter starts
     a proper distributed ArangoDB cluster. This is the default.
 
+  - `arangodb.async_replication`: this must either be "true" or "false"
+    and indicates, whether or not secondary DBServers that do
+    asynchronous replication are started.
+
   - `arangodb.role`: this must be a string and is the role for which the
     framework will accept offers. Default is "*".
 
