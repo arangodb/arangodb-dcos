@@ -8,6 +8,8 @@ Usage:
     dcos arangodb uninstall [--app-id <name>] [--internal]
     dcos arangodb mode [--app-id <name>] [--internal]
     dcos arangodb webui [--app-id <name>] [--internal]
+    dcos arangodb endpoints [--app-id <name>] [--internal]
+    dcos arangodb dbservers [--app-id <name>] [--internal]
 
 Options:
     -h, --help        Show this screen
@@ -33,6 +35,28 @@ def print_mode(args, internal):
 def print_webui(args, internal):
     print(discovery.get_arangodb_webui(args['<name>'], internal) + "/")
     return 0
+
+
+def print_endpoints(args, internal):
+    print("URL of ArangoDB web frontend:")
+    webui = discovery.get_arangodb_webui(args['<name>'], internal) + "/"
+    print("  " + webui)
+    endpoints = discovery.get_endpoints_coordinators(args['<name>'], internal)
+    print("Coordinators running on:")
+    for e in endpoints:
+        print("  " + e)
+    return 0
+
+def print_dbservers(args, internal):
+    print("URL of ArangoDB web frontend:")
+    webui = discovery.get_arangodb_webui(args['<name>'], internal) + "/"
+    print("  " + webui)
+    endpoints = discovery.get_endpoints_dbservers(args['<name>'], internal)
+    print("DBservers running on:")
+    for e in endpoints:
+        print("  " + e)
+    return 0
+
 
 
 def print_schema(args):
@@ -65,6 +89,10 @@ def main():
         return print_mode(args, internal)
     elif args['webui']:
         return print_webui(args, internal)
+    elif args['endpoints']:
+        return print_endpoints(args, internal)
+    elif args['dbservers']:
+        return print_dbservers(args, internal)
     else:
         print(__doc__)
         return 1

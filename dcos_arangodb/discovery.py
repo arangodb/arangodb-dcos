@@ -70,6 +70,49 @@ def get_mode(name, internal):
               + str(response.status_code))
         sys.exit(1)
 
+def get_endpoints_coordinators(name, internal):
+    url = get_arangodb_webui(name, internal) + "/v1/endpoints.json"
+
+    try:
+        response = requests.get(url, timeout=15)
+    except requests.exceptions.ConnectionError:
+        print("cannot connect to '" + url
+              + "', please check that the ArangoDB framework is running")
+        sys.exit(1)
+    except requests.exceptions.ConnectTimeout:
+        print("cannot connect to '" + url + "', please check your network")
+        sys.exit(1)
+
+    if response.status_code >= 200 and response.status_code < 300:
+        json = response.json()
+        return json["coordinators"]
+    else:
+        print("Bad response getting endpoints. Status code: "
+              + str(response.status_code))
+        sys.exit(1)
+
+def get_endpoints_dbservers(name, internal):
+    url = get_arangodb_webui(name, internal) + "/v1/endpoints.json"
+
+    try:
+        response = requests.get(url, timeout=15)
+    except requests.exceptions.ConnectionError:
+        print("cannot connect to '" + url
+              + "', please check that the ArangoDB framework is running")
+        sys.exit(1)
+    except requests.exceptions.ConnectTimeout:
+        print("cannot connect to '" + url + "', please check your network")
+        sys.exit(1)
+
+    if response.status_code >= 200 and response.status_code < 300:
+        json = response.json()
+        return json["dbservers"]
+    else:
+        print("Bad response getting endpoints. Status code: "
+              + str(response.status_code))
+        sys.exit(1)
+
+
 
 def destroy_cluster(name, internal):
     url = get_arangodb_webui(name, internal) + "/v1/destroy.json"
