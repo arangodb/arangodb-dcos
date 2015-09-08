@@ -245,4 +245,3 @@ issue trackers at
     the DCOS subcommand
   - [arangodb-mesos](https://github.com/arangodb/arangodb-mesos/issues):
     the ArangoDB framework/service
-
