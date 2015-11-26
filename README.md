@@ -187,6 +187,24 @@ attributes on the top level of this file are defined:
   - `arangodb.nr-coordinators`: an integer, number of coordinator
     processes in the cluster.
 
+  - `arangodb.secondaries-with-dbservers`: a boolean flag, if set to
+    true, secondary DBservers will only be launched on Mesos agents
+    on which there is already a primary DBserver
+
+  - `arangodb.coordinators-with-dbservers`: a boolean flag, if set to
+    true, coordinators will only be launched on Mesos agents on which
+    there is already a primary DBserver
+
+  - `arangodb.failover-timeout`: a number, time after which an automatic
+    failover happens in seconds
+
+  - `arangodb.mesos-authenticate`: boolean flag, if true, authentication
+    is used to talk to the Mesos master, in that case, the following
+    option `arangodb.secret` has to be set as well
+
+  - `arangodb.secret`: a string, secret for authentication with Apache
+    Mesos
+
 
 Running more than one ArangoDB cluster on the same Mesosphere cluster
 ---------------------------------------------------------------------
