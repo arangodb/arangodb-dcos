@@ -5,18 +5,14 @@ This repository contains a subcommand "arangodb" for the DCOS command
 line tool for Mesosphere clusters. It builds on top of the ArangoDB
 framework/service which can be found in
 
-    https://github.com/ArangoDB/arangodb-mesos
+    https://github.com/arangoDB/arangodb-mesos-framework
 
 and which is distributed in binary form as a Docker image
 
-    arangodb/arangodb-mesos
+    arangodb/arangodb-mesos-framework
     
-which in turn is built using the `Dockerfile` in
-
-    https://github.com/ArangoDB/arangodb-mesos-docker.
-
-See the [README.md](https://github.com/ArangoDB/arangodb-mesos) in the
-framework repository for details on how the framework scheduler is
+See the [README.md](https://github.com/ArangoDB/arangodb-mesos-framework)
+in the framework repository for details on how the framework scheduler is
 configured.
 
 
