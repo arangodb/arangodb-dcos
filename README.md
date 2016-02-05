@@ -53,7 +53,15 @@ Installation/Startup
 --------------------
 
 This assumes that you have a working Mesosphere cluster and `dcos` command
-line utility. Deploying an ArangoDB cluster is easy, just do:
+line utility. 
+
+You will have to create a separate role "arangodb" on the master so be sure to start your master with `--roles=arangodb`.
+On Mesosphere dcos edit `/opt/mesosphere/etc/mesos-master` and ensure the role is present:
+
+    MESOS_ROLES=slave_public,arangodb
+    MESOS_WEIGHTS=slave_public=1,arangodb=1
+
+Deploying an ArangoDB cluster is easy, just do:
 
     dcos package update
     dcos package install arangodb
