@@ -60,6 +60,8 @@ On Mesosphere dcos edit `/opt/mesosphere/etc/mesos-master` and ensure the role i
 
     MESOS_ROLES=slave_public,arangodb
     MESOS_WEIGHTS=slave_public=1,arangodb=1
+    
+Make sure to restart the master so mesos knows about the new role.
 
 Deploying an ArangoDB cluster is easy, just do:
 
