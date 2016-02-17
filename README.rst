@@ -5,18 +5,14 @@ This repository contains a subcommand "arangodb" for the DCOS command
 line tool for Mesosphere clusters. It builds on top of the ArangoDB
 framework/service which can be found in
 
-    https://github.com/ArangoDB/arangodb-mesos
+    https://github.com/arangoDB/arangodb-mesos-framework
 
 and which is distributed in binary form as a Docker image
 
-    arangodb/arangodb-mesos
+    arangodb/arangodb-mesos-framework
     
-which in turn is built using the `Dockerfile` in
-
-    https://github.com/ArangoDB/arangodb-mesos-docker.
-
-See the [README.md](https://github.com/ArangoDB/arangodb-mesos) in the
-framework repository for details on how the framework scheduler is
+See the [README.md](https://github.com/ArangoDB/arangodb-mesos-framework)
+in the framework repository for details on how the framework scheduler is
 configured.
 
 
@@ -53,11 +49,27 @@ scale the coordinator layer up if the bottleneck is CPU power for
 queries or Foxx apps (which run on the coordinators).
 
 
+Prerequisites for Installation
+------------------------------
+
+This assumes that you have a working Mesosphere cluster and `dcos` command
+line utility. Note that you need at least Version 1.3 of DCOS because we
+need at least Version 0.23 of Apache Mesos to use the support for
+persistent volumes.
+
+
 Installation/Startup
 --------------------
 
-This assumes that you have a working Mesosphere cluster and `dcos` command
-line utility. Deploying an ArangoDB cluster is easy, just do:
+You will have to create a separate role "arangodb" on the master so be sure to start your master with `--roles=arangodb`.
+On Mesosphere dcos edit `/opt/mesosphere/etc/mesos-master` and ensure the role is present:
+
+    MESOS_ROLES=slave_public,arangodb
+    MESOS_WEIGHTS=slave_public=1,arangodb=1
+    
+Make sure to restart the master so mesos knows about the new role.
+
+Deploying an ArangoDB cluster is easy, just do:
 
     dcos package update
     dcos package install arangodb
@@ -108,19 +120,19 @@ which clients of the database cluster talk. The coordinators are called
 number of coordinators. They all have a DNS entry in Mesos-DNS of the
 form
 
-    coordinator1.arangodb.mesos
+    arangodb-coordinator1.arangodb.mesos
 
 which points to an IP address that is valid within the Mesos cluster. 
 If you need to contact them from the outside you need some IP forwarding
 rules. Furthermore, they all have an SRV record under a name like
 
-    _coordinator1._tcp.arangodb.mesos
+    _arangodb-coordinator1._tcp.arangodb.mesos
 
 which contains a value like
 
-    0 0 15639 coordinator1-26922-s0.arangodb.mesos.
+    0 0 1026 arangodb-coordinator1-s614f-s3.arangodb.mesos.
 
-Here, the number 15639 is the port number under which the corresponding
+Here, the number 1026 is the port number under which the corresponding
 coordinator is reachable. There are similar entries for DBservers and
 agents but you should not need them at all. All interaction with the
 ArangoDB cluster goes via the coordinators.
@@ -134,76 +146,10 @@ way:
 
     dcos package install --config=<JSON_FILE> arangodb
 
-where `JSON_FILE` is the path to a JSON file. The following
-attributes on the top level of this file are defined:
+where `JSON_FILE` is the path to a JSON file. For a list of possible
+attribute values and their documentation see
 
-  - `arangodb.id`: a string, unique ID for the started cluster, do not
-    confuse with --app-id, unfortunately, the two are not the same!
-
-  - `arangodb.framework-cpus`: minimum cpu resources for the framework
-    scheduler.
-
-  - `arangodb.framework-mem`: minimum memory resource for the framework
-    scheduler.
-
-  - `arangodb.framework-instances`: number of instances of the framework
-    scheduler to launch. It does not make any sense to change this from
-    its default value of 1.
-
-  - `arangodb.mode`: this must be a string and the possible values
-    are "standalone" and "cluster". The former starts a fixed number of
-    independent single server instances in the cluster. The latter starts
-    a proper distributed ArangoDB cluster. This is the default.
-
-  - `arangodb.async_replication`: this must either be "true" or "false"
-    and indicates, whether or not secondary DBServers that do
-    asynchronous replication are started.
-
-  - `arangodb.role`: this must be a string and is the role for which the
-    framework will accept offers. Default is "*".
-
-  - `arangodb.minimum-resources-agent`: Mesos resource specification,
-    one must specify `cpus`, `mem` and `disk`. Otherwise offers with zero
-    values are accepted.
-
-  - `arangodb.minimum-resources-dbserver`: Mesos resource specification,
-    one must specify `cpus`, `mem` and `disk`. Otherwise offers with zero
-    values are accepted.
-    
-  - `arangodb.minimum-resources-secondary`: Mesos resource specification,
-    one must specify `cpus`, `mem` and `disk`. Otherwise offers with zero
-    values are accepted.
-
-  - `minimum-resources-coordinator`: Mesos resource
-    specification, one must specify `cpus`, `mem` and `disk`. Otherwise
-    offers with zero values are accepted.
-
-  - `arangodb.nr-agents`: an integer, number of agent processes in the
-    agency. Currently limited to 1.
-
-  - `arangodb.nr-dbservers`: an integer, number of DBserver processes in
-    the cluster.
-
-  - `arangodb.nr-coordinators`: an integer, number of coordinator
-    processes in the cluster.
-
-  - `arangodb.secondaries-with-dbservers`: a boolean flag, if set to
-    true, secondary DBservers will only be launched on Mesos agents
-    on which there is already a primary DBserver
-
-  - `arangodb.coordinators-with-dbservers`: a boolean flag, if set to
-    true, coordinators will only be launched on Mesos agents on which
-    there is already a primary DBserver
-
-  - `arangodb.failover-timeout`: a number, time after which an automatic
-    failover happens in seconds
-
-  - `arangodb.mesos-authenticate`: boolean flag, if true, authentication
-    is used to talk to the Mesos master, in that case, the following
-    option `arangodb.secret` has to be set as well
-
-  - `arangodb.secret`: a string, secret for authentication with Apache
-    Mesos
+    dcos package describe --config arangodb
 
 
 Running more than one ArangoDB cluster on the same Mesosphere cluster
@@ -255,6 +201,7 @@ channels:
   - `hackers@arangodb.com`: developer mailing list of ArangoDB
   - `max@arangodb.com`: direct email to Max Neunhöffer
   - `frank@arangodb.com`: direct email to Frank Celler
+  - `mop@arangodb.com`: direct email to Andreas Streichardt
 
 Additionally, we track issues, bug reports and questions via the github
 issue trackers at

@@ -49,11 +49,17 @@ scale the coordinator layer up if the bottleneck is CPU power for
 queries or Foxx apps (which run on the coordinators).
 
 
-Installation/Startup
---------------------
+Prerequisites for Installation
+------------------------------
 
 This assumes that you have a working Mesosphere cluster and `dcos` command
-line utility. 
+line utility. Note that you need at least Version 1.3 of DCOS because we
+need at least Version 0.23 of Apache Mesos to use the support for
+persistent volumes.
+
+
+Installation/Startup
+--------------------
 
 You will have to create a separate role "arangodb" on the master so be sure to start your master with `--roles=arangodb`.
 On Mesosphere dcos edit `/opt/mesosphere/etc/mesos-master` and ensure the role is present:
