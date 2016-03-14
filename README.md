@@ -52,11 +52,21 @@ queries or Foxx apps (which run on the coordinators).
 Prerequisites for Installation
 ------------------------------
 
-This assumes that you have a working Mesosphere cluster and `dcos` command
-line utility. Note that you need at least Version 1.3 of DCOS because we
-need at least Version 0.23 of Apache Mesos to use the support for
-persistent volumes.
+This assumes that you have a working Mesosphere cluster and `dcos` command line
+utility. Note that you need at least Version 1.3 of DCOS because we need at
+least Version 0.23 of Apache Mesos to use the support for persistent volumes.
 
+ArangoDB needs an ETCD to store the configuration of the cluster.  You can
+either use an existing ETCD cluster or ArangoDB will start a single ETCD
+instance for you.
+
+In production it is recommended to use an ETCD cluster for resilience.  In order
+to use an ETCD cluster, you need to follow the instructions given in
+[etcd-mesos](https://github.com/mesosphere/etcd-mesos).
+
+For example, start the ETCD cluster named `etcd-arangodb`. Then use the ETCD
+service locator `_etcd-server._client.etcd-arangodb.mesos` when starting
+ArangoDB.
 
 Installation/Startup
 --------------------
