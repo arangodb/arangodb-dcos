@@ -71,8 +71,12 @@ ArangoDB.
 Installation/Startup
 --------------------
 
-You will have to create a separate role "arangodb" on the master so be sure to start your master with `--roles=arangodb`.
-On Mesosphere dcos edit `/opt/mesosphere/etc/mesos-master` and ensure the role is present:
+If you are using Mesos below 0.27, you are required to setup a special
+roles in the master. For 0.27 and above this is not necessary any more.
+
+To create this separate role "arangodb" on the master, be sure to
+start your master with `--roles=arangodb`.  On Mesosphere dcos edit
+`/opt/mesosphere/etc/mesos-master` and ensure the role is present:
 
     MESOS_ROLES=slave_public,arangodb
     MESOS_WEIGHTS=slave_public=1,arangodb=1
