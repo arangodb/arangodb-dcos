@@ -3,17 +3,17 @@ from __future__ import print_function
 import os
 import sys
 
-import requests
+from dcos import http, util
 import toml
 
-from dcos import util
+from dcos.errors import DCOSException
 
 def get_arangodb_framework(name):
-    url = util.get_config().get('core.dcos_url') + ":5050/master/state.json"
+    url = util.get_config().get('core.dcos_url') + "/mesos/state.json"
     try:
-        response = requests.get(url, timeout=15)
-    except requests.exceptions.ConnectionError:
-        print("cannot connect to '" + url + "', please check your config")
+        response = http.get(url, timeout=15)
+    except DCOSException as e:
+        print("cannot connect to '" + url + "'", e)
         sys.exit(1)
 
     if response.status_code >= 200 and response.status_code < 300:
@@ -53,13 +53,9 @@ def get_mode(name, internal):
     url = get_arangodb_webui(name, internal) + "/v1/mode.json"
 
     try:
-        response = requests.get(url, timeout=15)
-    except requests.exceptions.ConnectionError:
-        print("cannot connect to '" + url
-              + "', please check that the ArangoDB framework is running")
-        sys.exit(1)
-    except requests.exceptions.ConnectTimeout:
-        print("cannot connect to '" + url + "', please check your network")
+        response = http.get(url, timeout=15)
+    except DCOSException as e:
+        print("cannot connect to '" + url + "'", e)
         sys.exit(1)
 
     if response.status_code >= 200 and response.status_code < 300:
@@ -74,13 +70,9 @@ def get_endpoints_coordinators(name, internal):
     url = get_arangodb_webui(name, internal) + "/v1/endpoints.json"
 
     try:
-        response = requests.get(url, timeout=15)
-    except requests.exceptions.ConnectionError:
-        print("cannot connect to '" + url
-              + "', please check that the ArangoDB framework is running")
-        sys.exit(1)
-    except requests.exceptions.ConnectTimeout:
-        print("cannot connect to '" + url + "', please check your network")
+        response = http.get(url, timeout=15)
+    except DCOSException as e:
+        print("cannot connect to '" + url + "'", e)
         sys.exit(1)
 
     if response.status_code >= 200 and response.status_code < 300:
@@ -95,13 +87,9 @@ def get_endpoints_dbservers(name, internal):
     url = get_arangodb_webui(name, internal) + "/v1/endpoints.json"
 
     try:
-        response = requests.get(url, timeout=15)
-    except requests.exceptions.ConnectionError:
-        print("cannot connect to '" + url
-              + "', please check that the ArangoDB framework is running")
-        sys.exit(1)
-    except requests.exceptions.ConnectTimeout:
-        print("cannot connect to '" + url + "', please check your network")
+        response = http.get(url, timeout=15)
+    except DCOSException as e:
+        print("cannot connect to '" + url + "'", e)
         sys.exit(1)
 
     if response.status_code >= 200 and response.status_code < 300:
@@ -109,7 +97,7 @@ def get_endpoints_dbservers(name, internal):
         return json["dbservers"]
     else:
         print("Bad response getting endpoints. Status code: "
-              + str(response.status_code))
+                + str(response.status_code))
         sys.exit(1)
 
 
@@ -118,13 +106,9 @@ def destroy_cluster(name, internal):
     url = get_arangodb_webui(name, internal) + "/v1/destroy.json"
 
     try:
-        response = requests.post(url, timeout=60)
-    except requests.exceptions.ConnectionError:
-        print("cannot connect to '" + url
-              + "', please check that the ArangoDB framework is running")
-        sys.exit(1)
-    except requests.exceptions.ConnectTimeout:
-        print("cannot connect to '" + url + "', please check your network")
+        response = http.post(url, timeout=60)
+    except DCOSException as e:
+        print("cannot connect to '" + url + "'", e)
         sys.exit(1)
 
     if response.status_code >= 200 and response.status_code < 300:
@@ -132,5 +116,5 @@ def destroy_cluster(name, internal):
         return json
     else:
         print("Bad response getting mode. Status code: "
-              + str(response.status_code))
+                + str(response.status_code))
         sys.exit(1)
