@@ -43,11 +43,24 @@ def get_arangodb_webui(name, internal):
 
     if internal:
         arangodb_framework = get_arangodb_framework(name)
-        return arangodb_framework['webui_url'].rstrip("/")
+        service_url = arangodb_framework['webui_url'].rstrip("/")
     else:
         base_url = util.get_config().get('core.dcos_url').rstrip("/")
-        return base_url + "/service/" + name
+        service_url = base_url + "/service/" + name
 
+    
+    # find out if arangodb is mounted (new world) or if the framework is mounted
+    version_url = service_url + "/_db/_system/_api/version"
+
+    try:
+        response = http.get(version_url, timeout=15)
+    except DCOSException as e:
+        # mop: as far as I get it I can't access the original http response because a completely new
+        # exception has been raised. what I would want to check is if there is a 404 which would
+        # indicate that this is an "old" version of the framework
+        return service_url
+
+    return service_url + "/framework"
 
 def get_mode(name, internal):
     url = get_arangodb_webui(name, internal) + "/v1/mode.json"
