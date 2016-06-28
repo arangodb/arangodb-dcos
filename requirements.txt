@@ -2,3 +2,4 @@ sphinx
 tox
 wheel
 toml
+setuptools==19.2
