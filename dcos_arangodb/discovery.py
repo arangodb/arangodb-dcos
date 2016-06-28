@@ -3,13 +3,13 @@ from __future__ import print_function
 import os
 import sys
 
-from dcos import http, util
+from dcos import http, config
 import toml
 
 from dcos.errors import DCOSException
 
 def get_arangodb_framework(name):
-    url = util.get_config().get('core.dcos_url') + "/mesos/state.json"
+    url = config.get_config_val('core.dcos_url') + "/mesos/state.json"
     try:
         response = http.get(url, timeout=15)
     except DCOSException as e:
@@ -45,7 +45,7 @@ def get_arangodb_webui(name, internal):
         arangodb_framework = get_arangodb_framework(name)
         service_url = arangodb_framework['webui_url'].rstrip("/")
     else:
-        base_url = util.get_config().get('core.dcos_url').rstrip("/")
+        base_url = config.get_config_val('core.dcos_url').rstrip("/")
         service_url = base_url + "/service/" + name
 
     
